@@ -29,12 +29,5 @@
             if (this.Type == CellType.HALL) return true;
             else return false;
         }
-
-        public bool isExit()
-        {
-            if (this.Type == CellType.EXIT) return true;
-            else return false;
-        }
-
     }
 }

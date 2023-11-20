@@ -66,7 +66,7 @@ namespace Maze
             }
 
             // Если выходит за границы поля
-            if(newX < 0 || newY < 0 || newX > Configuration.Columns-1 || newY > Configuration.Rows - 1) return;
+            if (newX < 0 || newY < 0 || newX > Configuration.Columns - 1 || newY > Configuration.Rows - 1) return;
 
             Cell destCell = maze.cells[newY, newX];
 

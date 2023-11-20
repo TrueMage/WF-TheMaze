@@ -36,10 +36,10 @@
         public void GetAttacked()
         {
             _health -= 25;
+            Parent.UpdateHealth(_health);
             if (_health <= 0)
             {
                 Parent.EndGame();
-                Parent.UpdateHealth(_health);
                 MessageBox.Show("Вы проиграли");
             }
         }

@@ -54,8 +54,8 @@
             // StatusLabelStepCount
             // 
             StatusLabelStepCount.Name = "StatusLabelStepCount";
-            StatusLabelStepCount.Size = new Size(154, 20);
-            StatusLabelStepCount.Text = "StatusLabelStepCount";
+            StatusLabelStepCount.Size = new Size(60, 20);
+            StatusLabelStepCount.Text = "Steps: 0";
             // 
             // LevelForm
             // 
