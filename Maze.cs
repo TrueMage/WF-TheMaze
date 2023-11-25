@@ -76,6 +76,7 @@ namespace Maze
             SpawnEnemies(20);
             SpawnHealing(150);
             SpawnMedals(3);
+            SpawnWeaponCrates(2);
         }
 
         #region SpawnMethods
@@ -143,8 +144,8 @@ namespace Maze
         {
             while (count != 0)
             {
-                int posX = r.Next(1,cells.GetLength(0));
-                int posY = r.Next(cells.GetLength(0)-1);
+                int posX = r.Next(1,Configuration.Rows);
+                int posY = r.Next(Configuration.Columns - 1);
 
                 if (!cells[posX, posY].isHall()) continue;
 
@@ -152,6 +153,23 @@ namespace Maze
                 Parent.Controls["pic" + posX + "_" + posY].BackgroundImage =
                     Parent.maze.cells[posX, posY].Texture =
                         Cell.Images[(int)(Parent.maze.cells[posX, posY].Type = CellType.MEDAL)];
+                count--;
+            }
+        }
+
+        public void SpawnWeaponCrates(int count)
+        {
+            while (count != 0)
+            {
+                int posX = r.Next(1, Configuration.Rows);
+                int posY = r.Next(Configuration.Columns - 1);
+
+                if (!cells[posX, posY].isHall()) continue;
+
+                cells[posX, posY].Type = CellType.WEAPON_CRATE;
+                Parent.Controls["pic" + posX + "_" + posY].BackgroundImage =
+                    Parent.maze.cells[posX, posY].Texture =
+                        Cell.Images[(int)(Parent.maze.cells[posX, posY].Type = CellType.WEAPON_CRATE)];
                 count--;
             }
         }

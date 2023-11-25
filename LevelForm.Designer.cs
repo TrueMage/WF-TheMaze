@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             statusStrip1 = new StatusStrip();
             StatusLabelHP = new ToolStripStatusLabel();
             StatusLabelStepCount = new ToolStripStatusLabel();
+            timer1 = new System.Windows.Forms.Timer(components);
             statusStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -57,6 +59,11 @@
             StatusLabelStepCount.Size = new Size(60, 20);
             StatusLabelStepCount.Text = "Steps: 0";
             // 
+            // timer1
+            // 
+            timer1.Interval = 500;
+            timer1.Tick += timer1_Tick;
+            // 
             // LevelForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -79,5 +86,6 @@
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel StatusLabelHP;
         private ToolStripStatusLabel StatusLabelStepCount;
+        private System.Windows.Forms.Timer timer1;
     }
 }

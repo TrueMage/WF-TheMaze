@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Media;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -9,13 +10,15 @@ namespace Maze
         public Maze maze; // ссылка на логику всего происходящего в лабиринте
         public Character Hero;
         private bool _gameEnded = false;
+        public SoundPlayer PickUpSound = new SoundPlayer(Properties.Resources.item_pick_up);
 
         public LevelForm()
         {
             InitializeComponent();
             FormSettings();
             StartGameProcess();
-            //this.Text += " 100 HP";
+            StatusLabelHP.BackColor = Color.White;
+            StatusLabelStepCount.BackColor = Color.White;
         }
 
         public void FormSettings()
@@ -85,20 +88,26 @@ namespace Maze
 
                 case CellType.ENEMY:
                     Hero.GetAttacked();
+                    if (_gameEnded) return;
                     break;
 
                 case CellType.HEALING_POTION:
                     Hero.GetHealed();
                     break;
 
+                case CellType.WEAPON_CRATE:
+                    PickUpSound.Play();
+                    Hero.GetRandomWeapon();
+                    break;
+
                 case CellType.MEDAL:
+                    PickUpSound.Play();
                     break;
             }
 
             Hero.Clear();
             Hero.MoveTo(newX, newY);
             Hero.Show();
-
         }
 
         private void LevelForm_Load(object sender, EventArgs e)
@@ -106,21 +115,30 @@ namespace Maze
 
         }
 
-        public void UpdateHealth(int health)
+        public void UpdateStatusBar(Character hero)
         {
-            //this.Text = "Maze " + health + "HP";
-            StatusLabelHP.Text = health + "HP";
-        }
-
-        public void UpdateStepCount(int step)
-        {
-            //this.Text = "Maze " + health + "HP";
-            StatusLabelStepCount.Text = "Steps: " + step;
+            if (hero.Health < 50)
+            {
+                StatusLabelHP.ForeColor = Color.Red;
+                timer1.Enabled = true;
+            }
+            else
+            {
+                StatusLabelHP.ForeColor = Color.Black;
+                timer1.Enabled = false;
+            }
+            StatusLabelHP.Text = hero.Health + " HP";
+            StatusLabelStepCount.Text = "Steps: " + hero.StepCount;
         }
 
         public void EndGame()
         {
             _gameEnded = true;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            StatusLabelHP.ForeColor = StatusLabelHP.ForeColor == Color.White ? Color.Red : Color.White;
         }
     }
 }
