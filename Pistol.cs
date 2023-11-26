@@ -10,12 +10,13 @@ namespace Maze
     internal class Pistol : Weapon
     {
         Random rand = new Random();
-        private SoundPlayer shootSound = new SoundPlayer(Properties.Resources.pistol_shoot);
         private LevelForm Parent;
+
         public Pistol(LevelForm parent)
         {
             Parent = parent;
             _ammoCount = rand.Next(3, 10);
+            _shootSound = new SoundPlayer(Properties.Resources.pistol_shoot);
             EnergyConsumption = 20;
 
             Parent.PistolIcon.Visible = true;
@@ -25,7 +26,7 @@ namespace Maze
         public override void Shoot()
         {
             _ammoCount--;
-            shootSound.Play();
+            _shootSound.Play();
             if (_ammoCount <= 0)
             {
                 Parent.PistolIcon.Enabled = false;

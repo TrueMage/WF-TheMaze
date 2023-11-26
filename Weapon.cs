@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,6 +11,7 @@ namespace Maze
     {
         protected int _ammoCount;
         public int EnergyConsumption;
+        protected SoundPlayer _shootSound;
 
         public abstract void Shoot();
 

@@ -102,7 +102,8 @@ namespace Maze
                     EndGame();
                     CaveMusic.controls.stop();
                     Victory.Play();
-                    MessageBox.Show("Вы победили!", "Победа!");
+                    VictoryForm vf = new VictoryForm(this);
+                    vf.Show();
                     break;
 
                 case CellType.HALL:
@@ -124,6 +125,7 @@ namespace Maze
 
                 case CellType.MEDAL:
                     if (SoundEffectOn) PickUpSound.Play();
+                    Hero.GetMedal();
                     break;
             }
 
