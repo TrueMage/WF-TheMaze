@@ -1,16 +1,20 @@
-﻿using System.Media;
+﻿using System.Diagnostics;
+using System.Media;
 
 namespace Maze
 {
     public class Character
     {
         Random r = new Random();
-
         private int _health = 100;
         private int _stepcount = 0;
         private int _energy = 500;
-        private Weapon _weapon;
+
+        private List<Weapon> _weapons = new List<Weapon>();
+        private int _currentWeapon = -1;
+
         SoundPlayer GameOverSound = new SoundPlayer(Properties.Resources.game_over);
+        SoundPlayer HurtSound = new SoundPlayer(Properties.Resources.hurt);
 
         // позиция главного персонажа
 
@@ -27,6 +31,14 @@ namespace Maze
             get
             {
                 return _stepcount;
+            }
+        }
+
+        public int Energy
+        {
+            get
+            {
+                return _energy;
             }
         }
 
@@ -50,6 +62,7 @@ namespace Maze
 
         public void MoveTo(ushort PosX, ushort PosY)
         {
+            Debug.WriteLine(this.PosX + " " + this.PosY);
             this.PosX = PosX;
             this.PosY = PosY;
 
@@ -66,6 +79,7 @@ namespace Maze
 
         public void GetAttacked()
         {
+            if (Parent.SoundEffectOn) HurtSound.Play();
             _health -= 25;
             Parent.UpdateStatusBar(this);
 
@@ -74,21 +88,33 @@ namespace Maze
                 GameOverSound.Play();
                 Parent.EndGame();
                 Parent.Controls["pic" + PosY + "_" + PosX].BackgroundImage = Properties.Resources.player_with_blackeye;
-                MessageBox.Show("У вас закончилось здоровье. Вы проиграли");
+
+                DialogResult result = MessageBox.Show("У вас закончилось здоровье. Вы проиграли","Конец игры", MessageBoxButtons.RetryCancel);
+                if (result == DialogResult.Retry) Parent.RestartGame();
             }
         }
 
         public void GetHealed()
         { 
             if(_health >= 100) return;
-            Parent.PickUpSound.Play();
+            if (Parent.SoundEffectOn) Parent.PickUpSound.Play();
             _health += 25;
             Parent.UpdateStatusBar(this);
         }
 
         public void GetRandomWeapon()
         {
+            _weapons.Add(new Pistol(Parent));
+            _currentWeapon = _weapons.Count()-1;
+        }
 
+        public void Shoot()
+        {
+            if(_currentWeapon <= -1) return;
+            if (_weapons[_currentWeapon].isEmpty()) return;
+            _weapons[_currentWeapon].Shoot();
+            _energy -= _weapons[_currentWeapon].EnergyConsumption;
+            Parent.UpdateStatusBar(this);
         }
 
         public void Show()

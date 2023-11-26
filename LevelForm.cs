@@ -1,24 +1,37 @@
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Media;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Maze
 {
     public partial class LevelForm : Form
     {
+        public bool SoundEffectOn = true;
+        public bool MusicOn = true;
+
         public Maze maze; // ссылка на логику всего происходящего в лабиринте
         public Character Hero;
         private bool _gameEnded = false;
+
+        // почему SoundPlayer НЕ МОЖЕТ ИГРАТЬ 2 ОДНОВРЕМЕННО ?! ПОЧЕМУ
+        public WMPLib.WindowsMediaPlayer CaveMusic = new WMPLib.WindowsMediaPlayer();
         public SoundPlayer PickUpSound = new SoundPlayer(Properties.Resources.item_pick_up);
+        public SoundPlayer Victory = new SoundPlayer(Properties.Resources.victory);
 
         public LevelForm()
         {
             InitializeComponent();
             FormSettings();
             StartGameProcess();
-            StatusLabelHP.BackColor = Color.White;
-            StatusLabelStepCount.BackColor = Color.White;
+            statusStrip1.BackColor = Color.White;
+            statusStrip1.ShowItemToolTips = true;
+
+            CaveMusic.URL = Path.GetFullPath("../../../Resources/Caves.wav");
+            //CaveMusic.URL = Properties.Resources.Caves - мечта, которая не сбудется из-за тупого WMP
+            CaveMusic.settings.setMode("loop", true);
         }
 
         public void FormSettings()
@@ -52,20 +65,27 @@ namespace Maze
             switch (e.KeyCode)
             {
                 case Keys.Right:
+                case Keys.D:
                     newX++;
                     break;
 
                 case Keys.Left:
+                case Keys.A:
                     newX--;
                     break;
 
                 case Keys.Up:
+                case Keys.W:
                     newY--;
                     break;
 
                 case Keys.Down:
+                case Keys.S:
                     newY++;
                     break;
+                case Keys.Enter:
+                    Hero.Shoot();
+                    return;
             }
 
             // Если выходит за границы поля
@@ -80,7 +100,9 @@ namespace Maze
 
                 case CellType.EXIT:
                     EndGame();
-                    MessageBox.Show("Вы победили!");
+                    CaveMusic.controls.stop();
+                    Victory.Play();
+                    MessageBox.Show("Вы победили!", "Победа!");
                     break;
 
                 case CellType.HALL:
@@ -96,12 +118,12 @@ namespace Maze
                     break;
 
                 case CellType.WEAPON_CRATE:
-                    PickUpSound.Play();
+                    if (SoundEffectOn) PickUpSound.Play();
                     Hero.GetRandomWeapon();
                     break;
 
                 case CellType.MEDAL:
-                    PickUpSound.Play();
+                    if (SoundEffectOn) PickUpSound.Play();
                     break;
             }
 
@@ -128,7 +150,8 @@ namespace Maze
                 timer1.Enabled = false;
             }
             StatusLabelHP.Text = hero.Health + " HP";
-            StatusLabelStepCount.Text = "Steps: " + hero.StepCount;
+            StatusLabelStepCount.Text = hero.StepCount.ToString();
+            StatusLabelEnergy.Text = hero.Energy.ToString();
         }
 
         public void EndGame()
@@ -136,9 +159,44 @@ namespace Maze
             _gameEnded = true;
         }
 
+        public void RestartGame()
+        {
+            timer1.Enabled = false;
+            StatusLabelHP.ForeColor = Color.Black;
+            _gameEnded = false;
+            Controls.Clear();
+
+            StatusStrip statusstrip = statusStrip1;
+            Controls.Add(statusstrip);
+            PistolIcon.Enabled = true;
+            PistolIcon.Visible = false;
+
+            if (CaveMusic.status != "playing" && MusicOn) CaveMusic.controls.play();
+            StartGameProcess();
+        }
+
         private void timer1_Tick(object sender, EventArgs e)
         {
             StatusLabelHP.ForeColor = StatusLabelHP.ForeColor == Color.White ? Color.Red : Color.White;
+        }
+
+        private void SoundSettingMenuItem_Click(object sender, EventArgs e)
+        {
+            SoundEffectOn = !SoundEffectOn;
+            SoundSettingMenuItem.Checked = SoundEffectOn;
+        }
+
+        private void MusicSettingMenuItem_Click(object sender, EventArgs e)
+        {
+            MusicOn = !MusicOn;
+            MusicSettingMenuItem.Checked = MusicOn;
+            if (MusicOn) CaveMusic.controls.play();
+            else CaveMusic.controls.stop();
+        }
+
+        private void StripStatusRestart_Click(object sender, EventArgs e)
+        {
+            RestartGame();
         }
     }
 }

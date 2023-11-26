@@ -8,9 +8,14 @@ namespace Maze
 {
     internal abstract class Weapon
     {
-        private int _ammoCount;
-        private int _energyConsumption;
+        protected int _ammoCount;
+        public int EnergyConsumption;
 
         public abstract void Shoot();
+
+        public virtual bool isEmpty()
+        {
+            return _ammoCount <= 0;
+        }
     }
 }
