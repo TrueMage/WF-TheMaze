@@ -71,11 +71,30 @@ namespace Maze.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap c4 {
+            get {
+                object obj = ResourceManager.GetObject("c4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
         internal static System.IO.UnmanagedMemoryStream Caves {
             get {
                 return ResourceManager.GetStream("Caves", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream drinking {
+            get {
+                return ResourceManager.GetStream("drinking", resourceCulture);
             }
         }
         
@@ -201,6 +220,16 @@ namespace Maze.Properties {
         internal static System.Drawing.Bitmap player_with_blackeye {
             get {
                 object obj = ResourceManager.GetObject("player_with_blackeye", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap redbull {
+            get {
+                object obj = ResourceManager.GetObject("redbull", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -19,7 +19,9 @@ namespace Maze
         // ÔÓ˜ÂÏÛ SoundPlayer Õ≈ ÃŒ∆≈“ »√–¿“‹ 2 ŒƒÕŒ¬–≈Ã≈ÕÕŒ ?! œŒ◊≈Ã”
         public WMPLib.WindowsMediaPlayer CaveMusic = new WMPLib.WindowsMediaPlayer();
         public SoundPlayer PickUpSound = new SoundPlayer(Properties.Resources.item_pick_up);
+        public SoundPlayer DrinkSound = new SoundPlayer(Properties.Resources.drinking);
         public SoundPlayer Victory = new SoundPlayer(Properties.Resources.victory);
+        public SoundPlayer GameOverSound = new SoundPlayer(Properties.Resources.game_over);
 
         public LevelForm()
         {
@@ -98,12 +100,12 @@ namespace Maze
                 case CellType.WALL:
                     return;
 
+                case CellType.REDBULL:
+                    Hero.GetEnergized();
+                    break;
+
                 case CellType.EXIT:
-                    EndGame();
-                    CaveMusic.controls.stop();
-                    Victory.Play();
-                    VictoryForm vf = new VictoryForm(this);
-                    vf.Show();
+                    EndGame("victory");
                     break;
 
                 case CellType.HALL:
@@ -156,9 +158,25 @@ namespace Maze
             StatusLabelEnergy.Text = hero.Energy.ToString();
         }
 
-        public void EndGame()
+        public void EndGame(string reason)
         {
             _gameEnded = true;
+            if (reason == "victory")
+            {
+                CaveMusic.controls.stop();
+                Victory.Play();
+
+                EndForm ef = new EndForm(this);
+                ef.Show();
+            }
+            else
+            {
+                GameOverSound.Play();
+                Controls["pic" + Hero.PosY + "_" + Hero.PosX].BackgroundImage = Properties.Resources.player_with_blackeye;
+
+                EndForm ef = new EndForm(this, reason);
+                ef.Show();
+            }
         }
 
         public void RestartGame()
@@ -170,8 +188,8 @@ namespace Maze
 
             StatusStrip statusstrip = statusStrip1;
             Controls.Add(statusstrip);
-            PistolIcon.Enabled = true;
-            PistolIcon.Visible = false;
+            WeaponIcon.Enabled = true;
+            WeaponIcon.Visible = false;
 
             if (CaveMusic.status != "playing" && MusicOn) CaveMusic.controls.play();
             StartGameProcess();

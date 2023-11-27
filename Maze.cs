@@ -72,38 +72,19 @@ namespace Maze
                     Parent.Controls.Add(picture);
                 }
             }
-
-            SpawnEnemies(20);
-            SpawnHealing(150);
-            SpawnMedals(3);
-            SpawnWeaponCrates(2);
+            SpawnByChance(CellType.ENEMY, 20);
+            SpawnByChance(CellType.HEALING_POTION, 150);
+            SpawnByCount(CellType.MEDAL,3);
+            SpawnByCount(CellType.WEAPON_CRATE, 2);
+            SpawnByCount(CellType.REDBULL, 5);
         }
 
         #region SpawnMethods
-        public void SpawnEnemies(int chance)
-        {
-            for (int i = 1; i < cells.GetLength(0); i++)
-            {
-                for (int j = 0; j < cells.GetLength(1)-1; j++)
-                {
-                    if (!cells[i,j].isHall()) continue;
-                    else if (r.Next(chance) == 0)
-                    {
-                        Debug.WriteLine("CREATED ENEMY AT" + i + " " + j);
-                        cells[i, j].Type = CellType.ENEMY;
 
-                        Parent.Controls["pic" + i + "_" + j].BackgroundImage =
-                            Parent.maze.cells[i, j].Texture =
-                                Cell.Images[(int)(Parent.maze.cells[i, j].Type = CellType.ENEMY)];
-                    }
-                }
-            }
-        }
-
-        public void SpawnHealing(int chance)
+        public void SpawnByChance(CellType entity, int chance)
         {
             bool pity = true;
-            
+
             for (int i = 1; i < cells.GetLength(0); i++)
             {
                 for (int j = 0; j < cells.GetLength(1) - 1; j++)
@@ -112,12 +93,11 @@ namespace Maze
                     else if (r.Next(chance) == 0)
                     {
                         pity = false;
-                        Debug.WriteLine("CREATED HEALING_POTION AT" + i + " " + j);
-                        cells[i, j].Type = CellType.HEALING_POTION;
+                        cells[i, j].Type = entity;
 
                         Parent.Controls["pic" + i + "_" + j].BackgroundImage =
                             Parent.maze.cells[i, j].Texture =
-                                Cell.Images[(int)(Parent.maze.cells[i, j].Type = CellType.HEALING_POTION)];
+                                Cell.Images[(int)(Parent.maze.cells[i, j].Type = entity)];
                     }
                 }
             }
@@ -140,24 +120,7 @@ namespace Maze
             }
         }
 
-        public void SpawnMedals(int count)
-        {
-            while (count != 0)
-            {
-                int posX = r.Next(1,Configuration.Rows);
-                int posY = r.Next(Configuration.Columns - 1);
-
-                if (!cells[posX, posY].isHall()) continue;
-
-                cells[posX, posY].Type = CellType.MEDAL;
-                Parent.Controls["pic" + posX + "_" + posY].BackgroundImage =
-                    Parent.maze.cells[posX, posY].Texture =
-                        Cell.Images[(int)(Parent.maze.cells[posX, posY].Type = CellType.MEDAL)];
-                count--;
-            }
-        }
-
-        public void SpawnWeaponCrates(int count)
+        public void SpawnByCount(CellType entity, int count)
         {
             while (count != 0)
             {
@@ -166,10 +129,10 @@ namespace Maze
 
                 if (!cells[posX, posY].isHall()) continue;
 
-                cells[posX, posY].Type = CellType.WEAPON_CRATE;
+                cells[posX, posY].Type = entity;
                 Parent.Controls["pic" + posX + "_" + posY].BackgroundImage =
                     Parent.maze.cells[posX, posY].Texture =
-                        Cell.Images[(int)(Parent.maze.cells[posX, posY].Type = CellType.WEAPON_CRATE)];
+                        Cell.Images[(int)(Parent.maze.cells[posX, posY].Type = entity)];
                 count--;
             }
         }

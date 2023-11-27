@@ -34,7 +34,7 @@
             StatusLabelHP = new ToolStripStatusLabel();
             StatusLabelStepCount = new ToolStripStatusLabel();
             StatusLabelEnergy = new ToolStripStatusLabel();
-            PistolIcon = new ToolStripStatusLabel();
+            WeaponIcon = new ToolStripStatusLabel();
             toolStripDropDownButton1 = new ToolStripDropDownButton();
             MusicSettingMenuItem = new ToolStripMenuItem();
             SoundSettingMenuItem = new ToolStripMenuItem();
@@ -46,7 +46,7 @@
             // statusStrip1
             // 
             statusStrip1.ImageScalingSize = new Size(20, 20);
-            statusStrip1.Items.AddRange(new ToolStripItem[] { StatusLabelHP, StatusLabelStepCount, StatusLabelEnergy, PistolIcon, toolStripDropDownButton1, StripStatusRestart });
+            statusStrip1.Items.AddRange(new ToolStripItem[] { StatusLabelHP, StatusLabelStepCount, StatusLabelEnergy, WeaponIcon, toolStripDropDownButton1, StripStatusRestart });
             statusStrip1.Location = new Point(0, 372);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(633, 26);
@@ -74,14 +74,14 @@
             StatusLabelEnergy.Size = new Size(53, 20);
             StatusLabelEnergy.Text = "500";
             // 
-            // PistolIcon
+            // WeaponIcon
             // 
-            PistolIcon.Image = Properties.Resources.pistol;
-            PistolIcon.Name = "PistolIcon";
-            PistolIcon.Size = new Size(73, 20);
-            PistolIcon.Text = "ENTER";
-            PistolIcon.ToolTipText = "ENTER";
-            PistolIcon.Visible = false;
+            WeaponIcon.Image = Properties.Resources.pistol;
+            WeaponIcon.Name = "WeaponIcon";
+            WeaponIcon.Size = new Size(73, 20);
+            WeaponIcon.Text = "ENTER";
+            WeaponIcon.ToolTipText = "ENTER";
+            WeaponIcon.Visible = false;
             // 
             // toolStripDropDownButton1
             // 
@@ -150,7 +150,7 @@
         private ToolStripMenuItem MusicSettingMenuItem;
         private ToolStripMenuItem SoundSettingMenuItem;
         private ToolStripStatusLabel StatusLabelEnergy;
-        public ToolStripStatusLabel PistolIcon;
+        public ToolStripStatusLabel WeaponIcon;
         public ToolStripStatusLabel StripStatusRestart;
         private StatusStrip statusStrip1;
     }

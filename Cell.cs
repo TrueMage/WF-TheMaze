@@ -1,6 +1,6 @@
 ﻿namespace Maze
 {
-    public enum CellType { HALL, WALL, MEDAL, ENEMY, HERO, HEALING_POTION, WEAPON_CRATE, EXIT };
+    public enum CellType { HALL, WALL, MEDAL, ENEMY, HERO, HEALING_POTION, WEAPON_CRATE, REDBULL, EXIT };
 
     public class Cell
     {
@@ -11,7 +11,8 @@
             new Bitmap(Properties.Resources.enemy), 
             new Bitmap(Properties.Resources.player),
             new Bitmap(Properties.Resources.healing_potion),
-            new Bitmap(Properties.Resources.weapon_crate)
+            new Bitmap(Properties.Resources.weapon_crate),
+            new Bitmap(Properties.Resources.redbull)
         };
 
         public CellType Type { get; set; }

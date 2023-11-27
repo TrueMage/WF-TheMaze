@@ -1,6 +1,6 @@
 ﻿namespace Maze
 {
-    partial class VictoryForm
+    partial class EndForm
     {
         /// <summary>
         /// Required designer variable.

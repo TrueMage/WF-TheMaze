@@ -11,12 +11,11 @@ namespace Maze
         private int _energy = 500;
         private int _medals = 0;
 
-        bool hasKey = false;
+        int lastEnergized = 0;
 
         private List<Weapon> _weapons = new List<Weapon>();
         private int _currentWeapon = -1;
 
-        SoundPlayer GameOverSound = new SoundPlayer(Properties.Resources.game_over);
         SoundPlayer HurtSound = new SoundPlayer(Properties.Resources.hurt);
 
         private CellType NotUsed = CellType.HALL;
@@ -70,7 +69,7 @@ namespace Maze
         {
             Parent.Controls["pic" + PosY + "_" + PosX].BackgroundImage =
                 Parent.maze.cells[PosY, PosX].Texture =
-                Cell.Images[(int)(Parent.maze.cells[PosY, PosX].Type = NotUsed != CellType.HEALING_POTION ? CellType.HALL : CellType.HEALING_POTION)];
+                Cell.Images[(int)(Parent.maze.cells[PosY, PosX].Type = NotUsed)];
             NotUsed = CellType.HALL;
         }
 
@@ -82,13 +81,15 @@ namespace Maze
 
             _stepcount++;
             _energy--;
+            lastEnergized++;
 
             if (_stepcount % 20 == 0)
             {
-                Parent.maze.SpawnEnemies(300);
+                Parent.maze.SpawnByChance(CellType.ENEMY, 200);
             }
 
             Parent.UpdateStatusBar(this);
+            if (_energy <= 0) Parent.EndGame("У вас закончилось \nэнергия");
         }
 
         public void GetAttacked()
@@ -97,15 +98,7 @@ namespace Maze
             _health -= 25;
             Parent.UpdateStatusBar(this);
 
-            if (_health <= 0)
-            {
-                GameOverSound.Play();
-                Parent.EndGame();
-                Parent.Controls["pic" + PosY + "_" + PosX].BackgroundImage = Properties.Resources.player_with_blackeye;
-
-                DialogResult result = MessageBox.Show("У вас закончилось здоровье. Вы проиграли","Конец игры", MessageBoxButtons.RetryCancel);
-                if (result == DialogResult.Retry) Parent.RestartGame();
-            }
+            if (_health <= 0) Parent.EndGame("У вас закончилось \nздоровье");
         }
 
         public void GetHealed()
@@ -120,6 +113,21 @@ namespace Maze
             Parent.UpdateStatusBar(this);
         }
 
+        public void GetEnergized()
+        {
+            if (lastEnergized < 30)
+            {
+                NotUsed = CellType.REDBULL;
+                return;
+            }
+            if (Parent.SoundEffectOn) Parent.DrinkSound.Play();
+
+            _energy += 25;
+            lastEnergized = 0;
+
+            Parent.UpdateStatusBar(this);
+        }
+
         public void GetMedal()
         {
             _medals++;
@@ -127,7 +135,13 @@ namespace Maze
 
         public void GetRandomWeapon()
         {
-            _weapons.Add(new Pistol(Parent));
+            switch (r.Next(0,2))
+            {
+                case 0: _weapons.Add(new Pistol(Parent));
+                    break;
+                case 1: _weapons.Add(new C4(Parent));
+                    break;
+            }
             _currentWeapon = _weapons.Count()-1;
         }
 

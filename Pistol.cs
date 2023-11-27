@@ -19,8 +19,9 @@ namespace Maze
             _shootSound = new SoundPlayer(Properties.Resources.pistol_shoot);
             EnergyConsumption = 20;
 
-            Parent.PistolIcon.Visible = true;
-            Parent.PistolIcon.ToolTipText = _ammoCount.ToString();
+            Parent.WeaponIcon.Visible = true;
+            Parent.WeaponIcon.Image = Properties.Resources.pistol;
+            Parent.WeaponIcon.ToolTipText = _ammoCount.ToString();
         }
 
         public override void Shoot()
@@ -29,12 +30,12 @@ namespace Maze
             _shootSound.Play();
             if (_ammoCount <= 0)
             {
-                Parent.PistolIcon.Enabled = false;
-                Parent.PistolIcon.ToolTipText = "Пустой";
+                Parent.WeaponIcon.Enabled = false;
+                Parent.WeaponIcon.ToolTipText = "Пустой";
             }
             else
             {
-                Parent.PistolIcon.ToolTipText = _ammoCount.ToString();
+                Parent.WeaponIcon.ToolTipText = _ammoCount.ToString();
             }
         }
     }

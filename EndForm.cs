@@ -11,15 +11,29 @@ using System.Windows.Forms;
 
 namespace Maze
 {
-    public partial class VictoryForm : Form
+    public partial class EndForm : Form
     {
         private LevelForm _Parent;
         private Character _hero;
-        public VictoryForm(LevelForm parent)
+
+        private bool _isVictory;
+        private string _reason;
+
+        public EndForm(LevelForm parent)
         {
             InitializeComponent();
             _Parent = parent;
             _hero = _Parent.Hero;
+            _isVictory = true;
+        }
+
+        public EndForm(LevelForm parent, string reason)
+        {
+            InitializeComponent();
+            _Parent = parent;
+            _hero = _Parent.Hero;
+            _isVictory = false;
+            _reason = reason;
         }
 
         private void buttonExit_Click(object sender, EventArgs e)
@@ -36,6 +50,13 @@ namespace Maze
 
         private void VictoryForm_Load(object sender, EventArgs e)
         {
+            if (!_isVictory)
+            {
+                this.Text = "Проигрыш";
+                label1.Text = _reason;
+                label1.ForeColor = Color.Red;
+            }
+
             for (int i = 0; i < _hero.Medals; i++)
             {
                 Controls["med" + i].Visible = true;
