@@ -24,7 +24,7 @@ namespace Maze
 
         SoundPlayer HurtSound = new SoundPlayer(Properties.Resources.hurt);
 
-        private CellType NotUsed = CellType.HALL;
+        public CellType NotUsed = CellType.HALL;
 
         // позиция главного персонажа
 
@@ -141,12 +141,12 @@ namespace Maze
 
         public void GetRandomWeapon()
         {
-            switch (r.Next(0,1))
+            switch (r.Next(0,2))
             {
                 case 0: _weapons.Add(new Pistol(Parent));
                     break;
-                /*case 1: _weapons.Add(new C4(Parent)); 
-                    break;*/
+                case 1: _weapons.Add(new C4(Parent)); 
+                    break;
             }
             _currentWeapon = _weapons.Count()-1;
         }

@@ -121,6 +121,15 @@ namespace Maze.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        internal static System.IO.UnmanagedMemoryStream explosion {
+            get {
+                return ResourceManager.GetStream("explosion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
         internal static System.IO.UnmanagedMemoryStream game_over {
             get {
                 return ResourceManager.GetStream("game_over", resourceCulture);
@@ -201,6 +210,15 @@ namespace Maze.Properties {
         internal static System.IO.UnmanagedMemoryStream pistol_shoot {
             get {
                 return ResourceManager.GetStream("pistol_shoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream plant {
+            get {
+                return ResourceManager.GetStream("plant", resourceCulture);
             }
         }
         

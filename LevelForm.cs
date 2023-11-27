@@ -103,6 +103,7 @@ namespace Maze
             switch (destCell.Type)
             {
                 case CellType.WALL:
+                case CellType.C4:
                     return;
 
                 case CellType.REDBULL:
