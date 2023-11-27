@@ -34,6 +34,10 @@ namespace Maze
             {
                 return _health;
             }
+            set
+            {
+                _health = value;
+            }
         }
 
         public int StepCount
@@ -94,7 +98,7 @@ namespace Maze
                 Parent.maze.SpawnByChance(CellType.ENEMY, 200);
             }
 
-            Parent.UpdateStatusBar(this);
+            Parent.UpdateStatusBar();
             if (_energy <= 0) Parent.EndGame("У вас закончилось \nэнергия");
         }
 
@@ -102,7 +106,7 @@ namespace Maze
         {
             if (Parent.SoundEffectOn) HurtSound.Play();
             _health -= 25;
-            Parent.UpdateStatusBar(this);
+            Parent.UpdateStatusBar();
 
             if (_health <= 0) Parent.EndGame("У вас закончилось \nздоровье");
         }
@@ -116,7 +120,7 @@ namespace Maze
             }
             if (Parent.SoundEffectOn) Parent.PickUpSound.Play();
             _health += 25;
-            Parent.UpdateStatusBar(this);
+            Parent.UpdateStatusBar();
         }
 
         public void GetEnergized()
@@ -131,7 +135,7 @@ namespace Maze
             _energy += 25;
             lastEnergized = 0;
 
-            Parent.UpdateStatusBar(this);
+            Parent.UpdateStatusBar();
         }
 
         public void GetMedal()
@@ -157,7 +161,7 @@ namespace Maze
             if (_weapons[_currentWeapon].isEmpty()) return;
             _weapons[_currentWeapon].Shoot(PosX, PosY, _lastdirection);
             _energy -= _weapons[_currentWeapon].EnergyConsumption;
-            Parent.UpdateStatusBar(this);
+            Parent.UpdateStatusBar();
         }
 
         public void Show()

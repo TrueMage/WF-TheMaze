@@ -147,9 +147,9 @@ namespace Maze
 
         }
 
-        public void UpdateStatusBar(Character hero)
+        public void UpdateStatusBar()
         {
-            if (hero.Health < 50)
+            if (Hero.Health < 50)
             {
                 StatusLabelHP.ForeColor = Color.Red;
                 timer1.Enabled = true;
@@ -159,9 +159,9 @@ namespace Maze
                 StatusLabelHP.ForeColor = Color.Black;
                 timer1.Enabled = false;
             }
-            StatusLabelHP.Text = hero.Health + " HP";
-            StatusLabelStepCount.Text = hero.StepCount.ToString();
-            StatusLabelEnergy.Text = hero.Energy.ToString();
+            StatusLabelHP.Text = Hero.Health + " HP";
+            StatusLabelStepCount.Text = Hero.StepCount.ToString();
+            StatusLabelEnergy.Text = Hero.Energy.ToString();
         }
 
         public void EndGame(string reason)

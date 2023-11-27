@@ -36,8 +36,13 @@ namespace Maze
             {
                 for (int j = -1; j < area - 1; j++)
                 {
-                    Debug.WriteLine(PosX + i);
-                    Debug.WriteLine(PosY + j);
+                    if (Parent.maze.cells[PosY + j, PosX + i].Type == CellType.HERO)
+                    {
+                        Parent.EndGame("У вас знатно бомбануло!");
+                        Parent.Hero.Health = 0;
+                        Parent.UpdateStatusBar();
+                    }
+
 
                     Parent.maze.cells[PosY + j, PosX + i].Type = CellType.HALL;
                     Parent.Controls["pic" + (PosY + j) + "_" + (PosX + i)].BackgroundImage = Properties.Resources.hall;
