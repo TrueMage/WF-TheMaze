@@ -24,7 +24,7 @@ namespace Maze
             Parent.WeaponIcon.ToolTipText = _ammoCount.ToString();
         }
 
-        public override void Shoot()
+        public override void Shoot(int PosX, int PosY, Character.Direction direction)
         {
             throw new NotImplementedException();
         }

@@ -63,26 +63,31 @@ namespace Maze
 
             ushort newX = Hero.PosX;
             ushort newY = Hero.PosY;
+            Character.Direction direction = Character.Direction.RIGHT;
 
             switch (e.KeyCode)
             {
                 case Keys.Right:
                 case Keys.D:
                     newX++;
+                    direction = Character.Direction.RIGHT;
                     break;
 
                 case Keys.Left:
                 case Keys.A:
                     newX--;
+                    direction = Character.Direction.LEFT;
                     break;
 
                 case Keys.Up:
                 case Keys.W:
                     newY--;
+                    direction = Character.Direction.UP;
                     break;
 
                 case Keys.Down:
                 case Keys.S:
+                    direction = Character.Direction.DOWN;
                     newY++;
                     break;
                 case Keys.Enter:
@@ -132,7 +137,7 @@ namespace Maze
             }
 
             Hero.Clear();
-            Hero.MoveTo(newX, newY);
+            Hero.MoveTo(newX, newY, direction);
             Hero.Show();
         }
 

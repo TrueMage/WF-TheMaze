@@ -5,6 +5,11 @@ namespace Maze
 {
     public class Character
     {
+        public enum Direction
+        {
+            UP, DOWN, LEFT, RIGHT
+        }
+
         Random r = new Random();
         private int _health = 100;
         private int _stepcount = 0;
@@ -12,6 +17,7 @@ namespace Maze
         private int _medals = 0;
 
         int lastEnergized = 0;
+        Direction _lastdirection = Direction.RIGHT;
 
         private List<Weapon> _weapons = new List<Weapon>();
         private int _currentWeapon = -1;
@@ -73,11 +79,11 @@ namespace Maze
             NotUsed = CellType.HALL;
         }
 
-        public void MoveTo(ushort PosX, ushort PosY)
+        public void MoveTo(ushort PosX, ushort PosY, Direction direction)
         {
-            Debug.WriteLine(this.PosX + " " + this.PosY);
             this.PosX = PosX;
             this.PosY = PosY;
+            _lastdirection = direction;
 
             _stepcount++;
             _energy--;
@@ -135,12 +141,12 @@ namespace Maze
 
         public void GetRandomWeapon()
         {
-            switch (r.Next(0,2))
+            switch (r.Next(0,1))
             {
                 case 0: _weapons.Add(new Pistol(Parent));
                     break;
-                case 1: _weapons.Add(new C4(Parent));
-                    break;
+                /*case 1: _weapons.Add(new C4(Parent)); 
+                    break;*/
             }
             _currentWeapon = _weapons.Count()-1;
         }
@@ -149,7 +155,7 @@ namespace Maze
         {
             if(_currentWeapon <= -1) return;
             if (_weapons[_currentWeapon].isEmpty()) return;
-            _weapons[_currentWeapon].Shoot();
+            _weapons[_currentWeapon].Shoot(PosX, PosY, _lastdirection);
             _energy -= _weapons[_currentWeapon].EnergyConsumption;
             Parent.UpdateStatusBar(this);
         }

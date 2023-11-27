@@ -13,7 +13,7 @@ namespace Maze
         public int EnergyConsumption;
         protected SoundPlayer _shootSound;
 
-        public abstract void Shoot();
+        public abstract void Shoot(int PosX, int PosY, Character.Direction direction);
 
         public virtual bool isEmpty()
         {
